@@ -28,9 +28,3 @@ jobs:
       run: |
         source venv/bin/activate
         python crawler/main.py
-
-    - name: Upload output files
-      uses: actions/upload-artifact@v3
-      with:
-        name: crawler-output
-        path: crawler/output/
