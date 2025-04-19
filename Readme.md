@@ -19,63 +19,102 @@ This is a fast, scalable, and reliable asynchronous web crawler designed to extr
 ## 📁 Project Structure
 
 ```
-crawler/
-├── config.py         # URL patterns per domain
-├── fetcher.py        # Handles HTTP requests with retries
-├── parser.py         # Extracts internal links from HTML
-├── main.py           # Core crawler logic
-└── output/
-    ├── product_urls.json   # Collected product links
-    └── visited_urls.json   # All visited URLs
+ecom-crawler/
+│
+├── crawler/
+│   ├── main.py           # Main crawler logic
+│   ├── fetcher.py        # Handles async HTTP requests with retry logic
+│   ├── parser.py         # Extracts and filters links
+│   └── config.py         # Contains domain-specific product URL patterns
+│
+├── output/
+│   └──  product_urls.json # Final collected product URLs and all visited URLs
+│   
+├── requirements.txt      # Python dependencies
+└── README.md             # Project documentation
 ```
 
 ---
 
-## 🚀 How to Run
+## ⚙️ Requirements
 
-1. **Clone the repo**
+- Python 3.8+
+- Internet connection
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Singh-Prajwal/crawler.git
+git clone https://github.com/your-username/ecom-crawler.git
 cd ecom-crawler
 ```
 
-2. **(Optional) Add your domains**
+### 2. Create and Activate Virtual Environment
 
-By default, `main.py` includes 4 example domains. You can edit them in the `domains` list.
-
-```python
-domains = [
-    "https://www.virgio.com/",
-    "https://www.tatacliq.com/",
-    "https://www.nykaafashion.com/",
-    "https://www.westside.com/"
-]
+#### On macOS/Linux:
+```bash
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-3. **Install requirements**
+#### On Windows:
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. **Run the crawler**
+---
+
+## 🕷️ Run the Crawler
+
+### Run with default domains:
 
 ```bash
 python crawler/main.py
+```
+
+### Optional: Run with a custom domain list
+
+Add your domains to a file named `domains.txt`, one per line, then run:
+
+```bash
+python crawler/main.py --file domains.txt
 ```
 
 ---
 
 ## 📤 Output
 
+The crawler will generate two files under `output/`:
+
 - `product_urls.json`: All discovered product URLs grouped by domain and visited by the crawler.
+
+Example:
+```json
+{
+  "https://www.example.com": [
+    "https://www.example.com/product/abc123",
+    ...
+  ]
+}
+```
+
+You’ll also get console logs for successful crawls, discovered products, and errors.
 
 ---
 
 ## 🛠️ Customizing
 
-You can update `config.py` to add domain-specific URL matching patterns:
+You can update `config.py` to add domain-specific product URL patterns:
 
 ```python
 DOMAIN_PATTERNS = {
@@ -83,15 +122,15 @@ DOMAIN_PATTERNS = {
 }
 ```
 
-These patterns help the crawler know which URLs are likely to be product pages.
+These regex patterns help the crawler identify product pages more accurately.
 
 ---
 
 ## 📌 Notes
 
-- The crawler respects internal links only (it won't crawl external sites).
-- It uses a depth limit (`MAX_DEPTH`) to avoid infinite loops or unnecessary crawling.
-- Error handling and retry logic are built in to make it resilient against flaky pages or failed requests.
+- The crawler respects internal links only.
+- Uses a depth limit (`MAX_DEPTH`) to prevent infinite loops.
+- Includes structured error handling and retry logic.
 
 ---
 
